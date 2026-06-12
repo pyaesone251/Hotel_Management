@@ -15,6 +15,13 @@
                     <field name="state" widget="statusbar"
                             statusbar_visible="available,occupied,maintenance"/>
                 </header>
+                <sheet>
+                    <div class="oe_button_box" name="butoon_box">
+                        <button name="action_view_booking" type="object"
+                                class="oe_stat_button" icon="fa-calendar"/>
+                        <field name="booking_count" widget="statinfo" string="Bookings"/>
+                    </div>
+                </sheet>
             </form>
         </field>
     </record>

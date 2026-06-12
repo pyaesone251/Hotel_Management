@@ -3,7 +3,7 @@
     'version' : '18.0.1.0.0',
     'category' : 'Service/Hotel',
     'installable' : True,
-    'application ' : True,
+    'application' : True,
     'auto_install' : False,
     'depends' : ['base','mail'],
     'data' : [

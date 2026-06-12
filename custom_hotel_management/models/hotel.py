@@ -56,3 +56,9 @@ class HotelRoom(models.Model):
             'domain':[('room_id','=',self.id)],
             'context':{'default_room_id':self.id},
         }
+
+class HotelBooking(models.Model):
+    _name = "hotel.booking"
+    _description = "Hotel Booking"
+
+    room_id = fields.Many2one('hotel.room',string="Room")
