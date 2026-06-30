@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Folio Tree View -->
+    <record id="hotel_folio_view_list" model="ir.ui.view">
+        <field name="name">hotel.folio.list</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'paid'"
+                  decoration-info="state == 'confirmed'"
+                  decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="reservation_id"/>
+                <field name="guest_id"/>
+                <field name="room_id"/>
+                <field name="checkin_date"/>
+                <field name="checkout_date"/>
+                <field name="room_charge" widget="monetary"/>
+                <field name="service_charge" widget="monetary"/>
+                <field name="total_amount" widget="monetary" sum="Total"/>
+                <field name="paid_amount" widget="monetary"/>
+                <field name="balance" widget="monetary"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'paid'"
+                       decoration-info="state == 'confirmed'"
+                       decoration-danger="state == 'cancelled'"
+                       decoration-warning="state == 'draft'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Folio Form View -->
+    <record id="hotel_folio_view_form" model="ir.ui.view">
+        <field name="name">hotel.folio.form</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirm" string="Confirm"
+                            type="object" class="btn-primary"
+                            invisible="state != 'draft'"/>
+                    <button name="action_pay" string="Register Payment"
+                            type="object" class="btn-primary"
+                            invisible="state not in ('draft', 'confirmed')"/>
+                    <button name="action_create_invoice" string="Create Invoice"
+                            type="object" class="btn-secondary"
+                            invisible="state not in ('confirmed', 'paid') or invoice_id"/>
+                    <button name="action_cancel" string="Cancel"
+                            type="object"
+                            invisible="state in ('paid', 'cancelled')"
+                            confirm="Are you sure you want to cancel this folio?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,confirmed,paid"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoice" type="object"
+                                class="oe_stat_button" icon="fa-pencil-square-o"
+                                invisible="not invoice_id">
+                            <div class="o_stat_info">
+                                <span class="o_stat_text">Invoice</span>
+                            </div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Guest &amp; Reservation">
+                            <field name="reservation_id" readonly="1"/>
+                            <field name="guest_id" readonly="1"/>
+                            <field name="partner_id" invisible="1"/>
+                            <field name="room_id" readonly="1"/>
+                            <field name="room_type_id" readonly="1"/>
+                        </group>
+                        <group string="Dates">
+                            <field name="checkin_date" readonly="1"/>
+                            <field name="checkout_date" readonly="1"/>
+                            <field name="duration"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Charges">
+                            <field name="room_charge" widget="monetary"/>
+                            <field name="service_charge" widget="monetary"/>
+                            <field name="tax_rate"/>
+                            <field name="tax_amount" widget="monetary"/>
+                            <field name="total_amount" widget="monetary"
+                                   class="oe_subtotal_footer_separator"/>
+                        </group>
+                        <group string="Payment">
+                            <field name="payment_method"/>
+                            <field name="paid_amount" widget="monetary"/>
+                            <field name="balance" widget="monetary"
+                                   class="oe_subtotal_footer_separator"/>
+                            <field name="invoice_id" readonly="1"/>
+                            <field name="currency_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes" name="notes">
+                            <field name="notes"
+                                   placeholder="Additional notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Folio Search View -->
+    <record id="hotel_folio_view_search" model="ir.ui.view">
+        <field name="name">hotel.folio.search</field>
+        <field name="model">hotel.folio</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="guest_id"/>
+                <field name="reservation_id"/>
+                <field name="room_id"/>
+                <separator/>
+                <filter string="Draft" name="draft"
+                        domain="[('state', '=', 'draft')]"/>
+                <filter string="Confirmed" name="confirmed"
+                        domain="[('state', '=', 'confirmed')]"/>
+                <filter string="Paid" name="paid"
+                        domain="[('state', '=', 'paid')]"/>
+                <filter string="Unpaid Balance" name="unpaid"
+                        domain="[('balance', '>', 0), ('state', '!=', 'cancelled')]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Guest" name="group_guest"
+                            context="{'group_by': 'guest_id'}"/>
+                    <filter string="Room" name="group_room"
+                            context="{'group_by': 'room_id'}"/>
+                    <filter string="Status" name="group_state"
+                            context="{'group_by': 'state'}"/>
+                    <filter string="Payment Method" name="group_payment"
+                            context="{'group_by': 'payment_method'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Folio Action -->
+    <record id="hotel_folio_action" model="ir.actions.act_window">
+        <field name="name">Folios</field>
+        <field name="res_model">hotel.folio</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No folios yet
+            </p>
+            <p>
+                Folios are automatically created when a guest checks in.
+            </p>
+        </field>
+    </record>
+
+</odoo>

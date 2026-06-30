@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Guest Tree View -->
+    <record id="hotel_guest_view_list" model="ir.ui.view">
+        <field name="name">hotel.guest.list</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="nationality"/>
+                <field name="id_type"/>
+                <field name="id_number"/>
+                <field name="vip" widget="boolean_toggle"/>
+                <field name="reservation_count"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Guest Form View -->
+    <record id="hotel_guest_view_form" model="ir.ui.view">
+        <field name="name">hotel.guest.form</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(hotel_reservation_action)d"
+                                type="action" class="oe_stat_button"
+                                icon="fa-calendar"
+                                context="{'search_default_guest_id': active_id}">
+                            <field name="reservation_count" widget="statinfo"
+                                   string="Reservations"/>
+                        </button>
+                    </div>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Guest Name"/>
+                        </h1>
+                        <field name="vip" widget="boolean_toggle"/>
+                    </div>
+                    <group>
+                        <group string="Personal Information">
+                            <field name="guest_type"/>
+                            <field name="gender"/>
+                            <field name="date_of_birth"/>
+                            <field name="nationality"/>
+                            <field name="partner_id" invisible="1"/>
+                        </group>
+                        <group string="Identification">
+                            <field name="id_type"/>
+                            <field name="id_number"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Contact Information">
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="mobile"/>
+                        </group>
+                        <group string="Address">
+                            <field name="street"/>
+                            <field name="street2"/>
+                            <field name="city"/>
+                            <field name="state_id"/>
+                            <field name="zip"/>
+                            <field name="country_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Reservations" name="reservations">
+                            <field name="reservation_ids">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="room_id"/>
+                                    <field name="checkin_date"/>
+                                    <field name="checkout_date"/>
+                                    <field name="grand_total" widget="monetary"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'checkin'"
+                                           decoration-info="state == 'confirmed'"
+                                           decoration-muted="state == 'checkout'"
+                                           decoration-danger="state == 'cancelled'"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"
+                                   placeholder="Internal notes about this guest..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Guest Kanban View -->
+    <record id="hotel_guest_view_kanban" model="ir.ui.view">
+        <field name="name">hotel.guest.kanban</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="vip"/>
+                <field name="reservation_count"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="row">
+                            <div class="col-3">
+                                <field name="image" widget="image"
+                                       options="{'preview_image': 'image', 'size': [60, 60]}"/>
+                            </div>
+                            <div class="col-9">
+                                <strong><field name="name"/></strong>
+                                <span t-if="record.vip.raw_value"
+                                      class="badge text-bg-warning ms-1">VIP</span>
+                                <div t-if="record.phone.value" class="text-muted">
+                                    <i class="fa fa-phone"/> <field name="phone"/>
+                                </div>
+                                <div t-if="record.email.value" class="text-muted">
+                                    <i class="fa fa-envelope"/> <field name="email"/>
+                                </div>
+                                <div class="mt-1">
+                                    <span class="badge text-bg-primary">
+                                        <field name="reservation_count"/> bookings
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Guest Search View -->
+    <record id="hotel_guest_view_search" model="ir.ui.view">
+        <field name="name">hotel.guest.search</field>
+        <field name="model">hotel.guest</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="id_number"/>
+                <separator/>
+                <filter string="VIP Guests" name="vip"
+                        domain="[('vip', '=', True)]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Nationality" name="group_nationality"
+                            context="{'group_by': 'nationality'}"/>
+                    <filter string="Guest Type" name="group_type"
+                            context="{'group_by': 'guest_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Guest Action -->
+    <record id="hotel_guest_action" model="ir.actions.act_window">
+        <field name="name">Guests</field>
+        <field name="res_model">hotel.guest</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Register your first Guest
+            </p>
+            <p>
+                Keep track of guest information, preferences, and history.
+            </p>
+        </field>
+    </record>
+
+</odoo>

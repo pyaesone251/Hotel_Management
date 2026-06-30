@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Room Types -->
+        <record id="room_type_single" model="hotel.room.type">
+            <field name="name">Single Room</field>
+            <field name="code">SGL</field>
+            <field name="sequence">1</field>
+            <field name="base_price">50.00</field>
+            <field name="max_adults">1</field>
+            <field name="max_children">0</field>
+            <field name="description">Cozy single room with one bed, perfect for solo travelers.</field>
+            <field name="amenities">WiFi, TV, Air Conditioning, Mini Bar, Safe</field>
+        </record>
+
+        <record id="room_type_double" model="hotel.room.type">
+            <field name="name">Double Room</field>
+            <field name="code">DBL</field>
+            <field name="sequence">2</field>
+            <field name="base_price">80.00</field>
+            <field name="max_adults">2</field>
+            <field name="max_children">1</field>
+            <field name="description">Comfortable double room with a queen-size bed.</field>
+            <field name="amenities">WiFi, TV, Air Conditioning, Mini Bar, Safe, Balcony</field>
+        </record>
+
+        <record id="room_type_twin" model="hotel.room.type">
+            <field name="name">Twin Room</field>
+            <field name="code">TWN</field>
+            <field name="sequence">3</field>
+            <field name="base_price">85.00</field>
+            <field name="max_adults">2</field>
+            <field name="max_children">1</field>
+            <field name="description">Twin room with two separate single beds.</field>
+            <field name="amenities">WiFi, TV, Air Conditioning, Mini Bar, Safe</field>
+        </record>
+
+        <record id="room_type_deluxe" model="hotel.room.type">
+            <field name="name">Deluxe Room</field>
+            <field name="code">DLX</field>
+            <field name="sequence">4</field>
+            <field name="base_price">150.00</field>
+            <field name="max_adults">2</field>
+            <field name="max_children">2</field>
+            <field name="description">Spacious deluxe room with premium amenities and city view.</field>
+            <field name="amenities">WiFi, Smart TV, Air Conditioning, Mini Bar, Safe, Balcony, Bathtub, Room Service</field>
+        </record>
+
+        <record id="room_type_suite" model="hotel.room.type">
+            <field name="name">Suite</field>
+            <field name="code">STE</field>
+            <field name="sequence">5</field>
+            <field name="base_price">250.00</field>
+            <field name="max_adults">3</field>
+            <field name="max_children">2</field>
+            <field name="description">Luxury suite with separate living area and premium furnishings.</field>
+            <field name="amenities">WiFi, Smart TV, Air Conditioning, Mini Bar, Safe, Balcony, Bathtub, Room Service, Living Room, Kitchen</field>
+        </record>
+
+        <record id="room_type_presidential" model="hotel.room.type">
+            <field name="name">Presidential Suite</field>
+            <field name="code">PRS</field>
+            <field name="sequence">6</field>
+            <field name="base_price">500.00</field>
+            <field name="max_adults">4</field>
+            <field name="max_children">3</field>
+            <field name="description">The finest accommodation with panoramic views and exclusive services.</field>
+            <field name="amenities">WiFi, Smart TV, Air Conditioning, Mini Bar, Safe, Balcony, Jacuzzi, Room Service, Living Room, Kitchen, Butler Service, Private Elevator</field>
+        </record>
+
+        <!-- Services -->
+        <record id="service_room_service" model="hotel.service">
+            <field name="name">Room Service</field>
+            <field name="code">RS001</field>
+            <field name="category">room_service</field>
+            <field name="price">15.00</field>
+            <field name="description">24/7 in-room dining service</field>
+        </record>
+
+        <record id="service_breakfast" model="hotel.service">
+            <field name="name">Breakfast Buffet</field>
+            <field name="code">FB001</field>
+            <field name="category">food</field>
+            <field name="price">25.00</field>
+            <field name="description">Full breakfast buffet per person</field>
+        </record>
+
+        <record id="service_lunch" model="hotel.service">
+            <field name="name">Lunch Set Menu</field>
+            <field name="code">FB002</field>
+            <field name="category">food</field>
+            <field name="price">35.00</field>
+            <field name="description">3-course lunch set menu per person</field>
+        </record>
+
+        <record id="service_dinner" model="hotel.service">
+            <field name="name">Dinner Set Menu</field>
+            <field name="code">FB003</field>
+            <field name="category">food</field>
+            <field name="price">45.00</field>
+            <field name="description">4-course dinner set menu per person</field>
+        </record>
+
+        <record id="service_laundry" model="hotel.service">
+            <field name="name">Laundry Service</field>
+            <field name="code">LN001</field>
+            <field name="category">laundry</field>
+            <field name="price">20.00</field>
+            <field name="description">Per bag laundry service</field>
+        </record>
+
+        <record id="service_dry_cleaning" model="hotel.service">
+            <field name="name">Dry Cleaning</field>
+            <field name="code">LN002</field>
+            <field name="category">laundry</field>
+            <field name="price">30.00</field>
+            <field name="description">Per item dry cleaning service</field>
+        </record>
+
+        <record id="service_airport_pickup" model="hotel.service">
+            <field name="name">Airport Pickup</field>
+            <field name="code">TR001</field>
+            <field name="category">transport</field>
+            <field name="price">40.00</field>
+            <field name="description">One-way airport transfer</field>
+        </record>
+
+        <record id="service_airport_dropoff" model="hotel.service">
+            <field name="name">Airport Drop-off</field>
+            <field name="code">TR002</field>
+            <field name="category">transport</field>
+            <field name="price">40.00</field>
+            <field name="description">One-way airport transfer</field>
+        </record>
+
+        <record id="service_spa" model="hotel.service">
+            <field name="name">Spa Treatment</field>
+            <field name="code">SP001</field>
+            <field name="category">spa</field>
+            <field name="price">80.00</field>
+            <field name="description">60-minute spa treatment</field>
+        </record>
+
+        <record id="service_massage" model="hotel.service">
+            <field name="name">Thai Massage</field>
+            <field name="code">SP002</field>
+            <field name="category">spa</field>
+            <field name="price">60.00</field>
+            <field name="description">60-minute traditional Thai massage</field>
+        </record>
+
+        <record id="service_city_tour" model="hotel.service">
+            <field name="name">City Tour</field>
+            <field name="code">TU001</field>
+            <field name="category">tour</field>
+            <field name="price">50.00</field>
+            <field name="description">Half-day guided city tour</field>
+        </record>
+
+        <record id="service_minibar" model="hotel.service">
+            <field name="name">Mini Bar Refill</field>
+            <field name="code">OT001</field>
+            <field name="category">other</field>
+            <field name="price">25.00</field>
+            <field name="description">Mini bar refill package</field>
+        </record>
+
+    </data>
+</odoo>

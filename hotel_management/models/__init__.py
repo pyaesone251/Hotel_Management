@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Import all model files for hotel_management module."""
-
-from . import hotel
+from . import hotel_room_type
+from . import hotel_room
+from . import hotel_guest
+from . import hotel_reservation
+from . import hotel_service
+from . import hotel_folio

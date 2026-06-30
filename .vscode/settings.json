@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Odoo",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "/home/odoo/GitHub/odoo/c/odoo-bin",
+            "args": [
+                "-c", "odoo.conf",
+                "--addons-path=/home/odoo/GitHub/odoo/c/addons,/home/odoo/GitHub/pyaesone/Hotel_Management"
+            ],
+            
+        }
+    ]
+}

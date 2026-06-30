@@ -1,28 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- ============================== -->
-    <!--       SECURITY GROUPS          -->
-    <!-- ============================== -->
-
+    <!-- Hotel Management Module Category -->
     <record id="module_category_hotel" model="ir.module.category">
         <field name="name">Hotel Management</field>
         <field name="description">Category for Hotel Management module</field>
         <field name="sequence">50</field>
     </record>
 
+    <!-- Hotel User Group -->
     <record id="group_hotel_user" model="res.groups">
         <field name="name">User</field>
         <field name="category_id" ref="module_category_hotel"/>
         <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-        <field name="comment">Hotel User: Can view and create rooms, guests, and bookings.</field>
     </record>
 
+    <!-- Hotel Manager Group -->
     <record id="group_hotel_manager" model="res.groups">
         <field name="name">Manager</field>
         <field name="category_id" ref="module_category_hotel"/>
         <field name="implied_ids" eval="[(4, ref('group_hotel_user'))]"/>
-        <field name="comment">Hotel Manager: Full access to all hotel operations including configuration and reporting.</field>
+    </record>
+
+    <!-- Record Rules -->
+    <!-- Company-based rules -->
+    <record id="hotel_reservation_comp_rule" model="ir.rule">
+        <field name="name">Hotel Reservation: Multi-Company</field>
+        <field name="model_id" ref="model_hotel_reservation"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="hotel_folio_comp_rule" model="ir.rule">
+        <field name="name">Hotel Folio: Multi-Company</field>
+        <field name="model_id" ref="model_hotel_folio"/>
+        <field name="domain_force">[('company_id', 'in', company_ids)]</field>
     </record>
 
 </odoo>
